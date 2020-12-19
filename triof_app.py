@@ -12,16 +12,20 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/start')
+@app.route('/start', methods=["GET"])
 def insert():
 
-    # Charger une image aléatoire
-    img_list = os.listdir("static/camera")
-    img = random.choice(img_list)
+    if request.values:
+        print(request.values["choose"])
 
-    open_waste_slot()
+        # Charger une image aléatoire
+        img_list = os.listdir("static/camera")
+        img = random.choice(img_list)
 
-    return render_template('insert.html', data=img)
+        return render_template('insert.html', data=img)
+    
+    else :
+        return render_template('insert.html', data="")
 
 
 @app.route('/waste/pick-type')

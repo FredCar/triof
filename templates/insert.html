@@ -26,9 +26,18 @@
 						<p>
 							<img
 								width=150
-								src="static/camera/{{ data }}"
+								{% if data %}
+									src="static/camera/{{ data }}"
+								{% else %}
+									src="https://www.gabpproperty.com/media/catalog/product/cache/7/image/730x/0dc2d03fe217f8c83829496872af24a0/r/e/rec7.jpg"
+								{% endif %}
 							/>
 						</p>
+						<div>
+							<ul class="actions special">
+								<li><a href="/start?choose=true" class="button">Charger</a></li>
+							</ul>
+						</div>
 						<hr >
 
 						<div>

@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request
 from src.utils import *
 
+import os
+import random
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -11,9 +15,13 @@ def home():
 @app.route('/start')
 def insert():
 
+    # Charger une image aléatoire
+    img_list = os.listdir("static/camera")
+    img = random.choice(img_list)
+
     open_waste_slot()
 
-    return render_template('insert.html')
+    return render_template('insert.html', data=img)
 
 
 @app.route('/waste/pick-type')

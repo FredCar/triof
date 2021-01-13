@@ -49,7 +49,7 @@ def pick_type():
         pred = model.predict(X)
 
         # Controle et redirection
-        if pred < 0.5:
+        if pred < 0.5: # Image is clean
             # Connect to Azure API
             ENDPOINT = "https://triofcv.cognitiveservices.azure.com/"
             prediction_key = "3584e049dbb44462a1ccda0647352be8"
@@ -60,18 +60,17 @@ def pick_type():
             predictor = CustomVisionPredictionClient(ENDPOINT, prediction_credentials)
 
             with open(f"static/camera/{img}", "rb") as image_contents:
-                results = predictor.classify_image(
-                    projectId, publish_iteration_name, image_contents.read())
+                results = predictor.classify_image(projectId, publish_iteration_name, image_contents.read())
                 result = {}
                 for prediction in results.predictions:
                     result[prediction.tag_name] = prediction.probability
 
             result = sorted(result, key=lambda item: item[1])[0]
+            close_waste_slot()
             return render_template('type.html', img=img, result=result)
 
-        else:
+        else: # Image is dirty
             result = "dirty"
-            close_waste_slot()
             return render_template('type.html', img=img, result=result)
 
 

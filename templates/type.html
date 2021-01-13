@@ -35,47 +35,50 @@
 				<img width=150 src="../../static/camera/{{ img }}">
 			</p>
 
-			<form method="post" action="/confirmation">
-				<div class="fields">
+			{% if result=="dirty" %} 
+				<p>Ce déchet est trop sale, <br>nous ne pourrons rien en faire !</p>
 
-
+				<form method="get" action="/start">
 					<div class="field">
-
-						<input type="radio" name="type" id="bouteille" value="Bouteille plastique" 
-						{% if result=="bouteille" %} 
-							checked
-						{% endif %}
-						>
-						<label for="bouteille">Bouteille plastique</label>
-
-
-
-						<input type="radio" name="type" id="gobelet" value="gobelet"
-						{% if result=="gobelet" %} 
-							checked
-						{% endif %}
-						>
-						<label for="gobelet">Gobelet en plastique</label>
-
-
-
-						<input type="radio" name="type" id="couvert" value="couvert"
-						{% if result=="couvert" %} 
-							checked
-						{% endif %}
-						>
-						<label for="couvert">Couverts en plastique</label>
-
-
+						<input type="submit" value="Changer" />
 					</div>
+				</form>
+
+			{% else %}
+				<form method="post" action="/confirmation">
+					<div class="fields">
+						<div class="field">
+
+							<input type="radio" name="type" id="bouteille" value="Bouteille plastique" 
+							{% if result=="bouteille" %} 
+								checked
+							{% endif %}
+							>
+							<label for="bouteille">Bouteille plastique</label>
+
+							<input type="radio" name="type" id="gobelet" value="gobelet"
+							{% if result=="gobelet" %} 
+								checked
+							{% endif %}
+							>
+							<label for="gobelet">Gobelet en plastique</label>
+
+							<input type="radio" name="type" id="couvert" value="couvert"
+							{% if result=="couvert" %} 
+								checked
+							{% endif %}
+							>
+							<label for="couvert">Couverts en plastique</label>
+
+						</div>
 
 
-					<div class="field">
-						<input type="submit" value="confirm" />
+						<div class="field">
+							<input type="submit" value="confirm" />
+						</div>
 					</div>
-				</div>
-
-			</form>
+				</form>
+			{% endif %}
 
 		</section>
 

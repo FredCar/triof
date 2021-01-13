@@ -1,6 +1,12 @@
 import os
 import random
+import numpy as np
 from matplotlib.image import imread
+
+from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
+from msrest.authentication import ApiKeyCredentials
+from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras.preprocessing.image import img_to_array
 
 def open_waste_slot():
 
@@ -65,7 +71,6 @@ def send_command_to_machine(command_name, value=None):
     return True
 
 
-
 def shred_waste():
 
     send_command_to_machine("shred_waste")
@@ -91,3 +96,57 @@ def take_trash_picture():
     path = random.choice(paths)
 
     return imread(os.path.join("./camera", path))
+
+
+def load_random_image(path="static/camera"):
+    
+    """
+    function who load a random image from a local directory
+    """
+
+    img_list = os.listdir(path)
+    img = random.choice(img_list)
+
+    return img
+
+
+def request_azure_api(image_name):
+
+    """
+    function who requests the Azure Custom Vision API
+    and returns the classe prediction
+    """
+
+    # Parameters
+    ENDPOINT = "https://triofcv.cognitiveservices.azure.com/"
+    prediction_key = "3584e049dbb44462a1ccda0647352be8"
+    publish_iteration_name = "Iteration2"
+    projectId = "72e7b78b-9edd-4dd2-a90d-7870228699f3"
+
+    prediction_credentials = ApiKeyCredentials(in_headers={"Prediction-key": prediction_key})
+    predictor = CustomVisionPredictionClient(ENDPOINT, prediction_credentials)
+
+    # Request
+    with open(f"static/camera/{image_name}", "rb") as image_contents:
+        results = predictor.classify_image(projectId, publish_iteration_name, image_contents.read())
+        result = {}
+        for prediction in results.predictions:
+            result[prediction.tag_name] = prediction.probability
+
+    # Sort result
+    result = sorted(result, key=lambda item: item[1])[0]
+
+    return result
+
+
+def preprocess_image(image):
+
+    """
+    function which applies some preprocessing to the image
+    """
+
+    image = load_img(path=f"static/camera/{image}", target_size=(150,150,3))
+    image = img_to_array(image).astype('float32')/255
+    image = np.expand_dims(image, axis=0)
+
+    return image

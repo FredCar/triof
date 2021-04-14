@@ -8,6 +8,8 @@ from msrest.authentication import ApiKeyCredentials
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 
+from src import config
+
 def open_waste_slot():
 
     """
@@ -119,9 +121,9 @@ def request_azure_api(image_name):
 
     # Parameters
     ENDPOINT = "https://triofcv.cognitiveservices.azure.com/"
-    prediction_key = "3584e049dbb44462a1ccda0647352be8"
+    prediction_key = config.PREDICTION_KEY
     publish_iteration_name = "Iteration2"
-    projectId = "72e7b78b-9edd-4dd2-a90d-7870228699f3"
+    projectId = config.PROJECT_ID
 
     prediction_credentials = ApiKeyCredentials(in_headers={"Prediction-key": prediction_key})
     predictor = CustomVisionPredictionClient(ENDPOINT, prediction_credentials)

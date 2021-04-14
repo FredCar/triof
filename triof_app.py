@@ -3,6 +3,19 @@ from src.utils import *
 import os
 import random
 from tensorflow.keras.models import load_model
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+
+sentry_sdk.init(
+    dsn="https://1ad49c80f390426c8060deccc5526ba0@o571413.ingest.sentry.io/5719662",
+    integrations=[FlaskIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0
+)
 
 
 app = Flask(__name__)
@@ -57,6 +70,11 @@ def confirmation():
 
     process_waste(waste_type)
     return render_template('confirmation.html')
+
+
+@app.route('/debug-sentry')
+def trigger_error():
+    division_by_zero = 1 / 0
 
 
 if __name__ == "__main__":

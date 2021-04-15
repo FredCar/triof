@@ -1,19 +1,17 @@
 from flask import Flask, render_template, request
 from src.utils import *
+from src import config
 import os
 import random
 from tensorflow.keras.models import load_model
+
+
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-
 sentry_sdk.init(
-    dsn="https://1ad49c80f390426c8060deccc5526ba0@o571413.ingest.sentry.io/5719662",
+    dsn=config.SENTRY_DSN,
     integrations=[FlaskIntegration()],
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
     traces_sample_rate=1.0
 )
 

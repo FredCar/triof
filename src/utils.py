@@ -120,7 +120,7 @@ def request_azure_api(image_name):
     """
 
     # Parameters
-    ENDPOINT = "https://triofcv.cognitiveservices.azure.com/"
+    ENDPOINT = config.ENDPOINT
     prediction_key = config.PREDICTION_KEY
     publish_iteration_name = "Iteration2"
     projectId = config.PROJECT_ID

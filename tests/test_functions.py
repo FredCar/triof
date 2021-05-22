@@ -15,19 +15,10 @@ def test_load_random_image():
     assert img[-3:] in ["jpg", "png", "peg"]
 
 
-def test_azure_endpoint():
-    result = requests.get(config.ENDPOINT)
-    assert result.status_code == 200
-
-
 def test_request_azure_api():
     img = load_random_image()
     prediction = request_azure_api(img)
-
-    # with pytest.raises("azure.cognitiveservices.vision.customvision.prediction.models._models_py3.CustomVisionErrorException"):
-    #         request_azure_api(img)
-
-    assert prediction == 1
+    assert prediction in ["gobelet", "couvert", "bouteille"]
 
 
 def test_preprocess_image():

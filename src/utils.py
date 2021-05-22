@@ -122,7 +122,7 @@ def request_azure_api(image_name):
     # Parameters
     ENDPOINT = config.ENDPOINT
     prediction_key = config.PREDICTION_KEY
-    publish_iteration_name = "Iteration2"
+    publish_iteration_name = "Iteration1"
     projectId = config.PROJECT_ID
 
     prediction_credentials = ApiKeyCredentials(in_headers={"Prediction-key": prediction_key})
